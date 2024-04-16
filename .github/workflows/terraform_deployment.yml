@@ -42,16 +42,14 @@ jobs:
             ARM_CLIENT_SECRET_UA: ${{ secrets.AZURE_CLIENT_SECRET }}
             AZURE_AD_TENANT_ID_UA: ${{ secrets.AZURE_TENANT_ID }}
             AZURE_SUBSCRIPTION_ID_UA: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-              
-      - name: Terraform Init
-        run: terraform init
-
       - name: Terraform Plan
-        run: |
+        uses: hashicorp/setup-terraform@v2
+      - run: |
           terraform plan -var-file="terraform/terraform.tfvars" -out=tf.plan \
           -var="ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" \
           -var="ngc_api_key=${{ secrets.NGC_API_KEY }}" \
           -var="ngc_email=${{ secrets.NGC_EMAIL }}" \
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve "tf.plan"
+        uses: hashicorp/setup-terraform@v2
+      - run: terraform apply -auto-approve "tf.plan"
