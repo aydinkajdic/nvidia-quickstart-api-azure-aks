@@ -33,6 +33,12 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: List files in Terraform directory
+        run: ls -l
+
+      - name: Display non-sensitive content of the tfvars file
+        run: cat terraform/terraform.tfvars
+              
       - name: Terraform Init
         run: terraform init
 
@@ -42,10 +48,12 @@ jobs:
           -var="ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" \
           -var="ngc_api_key=${{ secrets.NGC_API_KEY }}" \
           -var="ngc_email=${{ secrets.NGC_EMAIL }}" \
-          -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
-          -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
-          -var="client_id=${{ secrets.AZURE_CLIENT_ID }}" \
-          -var="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}"
+          -var="provider_config={ \
+            tenant_id='${{ secrets.AZURE_TENANT_ID }}', \
+            subscription_id='${{ secrets.AZURE_SUBSCRIPTION_ID }}', \
+            client_id='${{ secrets.AZURE_CLIENT_ID }}', \
+            client_secret='${{ secrets.AZURE_CLIENT_SECRET }}' \
+          }"
 
       - name: Terraform Apply
         run: terraform apply "tfplan"
