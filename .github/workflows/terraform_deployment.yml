@@ -50,6 +50,12 @@ jobs:
           -var="ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" \
           -var="ngc_api_key=${{ secrets.NGC_API_KEY }}" \
           -var="ngc_email=${{ secrets.NGC_EMAIL }}" \
+          -var="provider_config={ \
+            tenant_id=${{ secrets.AZURE_TENANT_ID }}, \
+            subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}, \
+            client_id=${{ secrets.AZURE_CLIENT_ID }}, \
+            client_secret=${{ secrets.AZURE_CLIENT_SECRET }} \
+          }"          
 
       - name: Terraform Apply
         uses: hashicorp/setup-terraform@v2
