@@ -1,11 +1,11 @@
-# variable "provider_config" {
-#   type = object({
-#     tenant_id       = string
-#     subscription_id = string
-#     client_id       = string
-#     client_secret   = string
-#   })
-# }
+variable "provider_config" {
+  type = object({
+    tenant_id       = string
+    subscription_id = string
+    client_id       = string
+    client_secret   = string
+  })
+}
 variable "name" {
   type = string
 }
