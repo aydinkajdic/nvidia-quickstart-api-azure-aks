@@ -66,7 +66,7 @@ locals {
       disk_size_gb         = 1000
     }
     data_disk_details = []
-    user_data         = filebase64("${path.module}/user-data/configure-nfs-server.sh")
+    user_data         = filebase64("./user-data/configure-nfs-server.sh")
   }
   aks = {
     name                = var.name

@@ -33,7 +33,7 @@ resource "kubernetes_config_map_v1" "install_nfs_common" {
     name = "install-nfs-common"
   }
   data = {
-    "install-nfs-common.sh" = file("${path.cwd}/user-data/install-nfs-common.sh")
+    "install-nfs-common.sh" = file("./user-data/install-nfs-common.sh")
   }
   depends_on = [module.aks]
 }
