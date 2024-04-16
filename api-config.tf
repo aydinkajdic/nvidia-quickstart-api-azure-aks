@@ -171,7 +171,7 @@ resource "helm_release" "tao_toolkit_api" {
   replace             = true
   repository_username = local.ngc_username
   repository_password = var.ngc_api_key
-  values              = [var.chart_values]
+  values              = [yamlencode(var.chart_values)]
   depends_on = [
     kubernetes_secret_v1.imagepullsecret,
     time_sleep.wait_for_gpu_operator_up,

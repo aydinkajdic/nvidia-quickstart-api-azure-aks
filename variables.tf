@@ -37,9 +37,9 @@ variable "ngc_email" {
 variable "chart" {
   type = string
 }
-variable "chart_values" {
-  type = string
-}
+# variable "chart_values" {
+#   type = string
+# }
 variable "gpu_operator_version" {
   type    = string
   default = null
@@ -50,3 +50,8 @@ variable "nvidia_driver_version" {
 }
 variable "extra_node_pool_name" {}
 variable "extra_vm_size" {}
+
+variable "chart_values" {
+  type = map(string)
+  description = "Values for the chart"
+}
