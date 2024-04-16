@@ -27,24 +27,28 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: "1.2.4"
-
-      - name: Configure Azure Credentials
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: List files in Terraform directory
-        run: ls -l
-
-      - name: Display non-sensitive content of the tfvars file
-        run: cat terraform/terraform.tfvars
+          
+      - name: Az Login
+        uses: actions/checkout@v2
+      - run: |
+            az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+            az account show
+      - name: Terraform Init
+        uses: hashicorp/setup-terraform@v2
+      - run: |
+          terraform init -backend-config=storage_account_name=${{ secrets.AZURE_STORAGE_ACCOUNT }} -backend-config=container_name=${{ secrets.AZURE_CONTAINER }} -backend-config=key=terraform.tfstate -backend-config=resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP }} -backend-config=subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }} -backend-config=tenant_id=${{ secrets.AZURE_TENANT_ID }} -backend-config=client_id=${{ secrets.AZURE_CLIENT_ID }} -backend-config=client_secret=${{ secrets.AZURE_CLIENT_SECRET }}
+        env:
+            ARM_CLIENT_ID_UA: ${{ secrets.AZURE_CLIENT_ID }}
+            ARM_CLIENT_SECRET_UA: ${{ secrets.AZURE_CLIENT_SECRET }}
+            AZURE_AD_TENANT_ID_UA: ${{ secrets.AZURE_TENANT_ID }}
+            AZURE_SUBSCRIPTION_ID_UA: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
               
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
         run: |
-          terraform plan -var-file="terraform/terraform.tfvars" -out=tfplan \
+          terraform plan -var-file="terraform/terraform.tfvars" -out=tf.plan \
           -var="ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" \
           -var="ngc_api_key=${{ secrets.NGC_API_KEY }}" \
           -var="ngc_email=${{ secrets.NGC_EMAIL }}" \
@@ -56,7 +60,4 @@ jobs:
           }"
 
       - name: Terraform Apply
-        run: terraform apply "tfplan"
-
-      - name: Azure Logout
-        run: az logout
+        run: terraform apply -auto-approve "tf.plan"
