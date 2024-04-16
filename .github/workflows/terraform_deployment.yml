@@ -38,10 +38,11 @@ jobs:
       - run: |
           terraform init -backend-config=storage_account_name=${{ secrets.AZURE_STORAGE_ACCOUNT }} -backend-config=container_name=${{ secrets.AZURE_CONTAINER }} -backend-config=key=terraform.tfstate -backend-config=resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP }} -backend-config=subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }} -backend-config=tenant_id=${{ secrets.AZURE_TENANT_ID }} -backend-config=client_id=${{ secrets.AZURE_CLIENT_ID }} -backend-config=client_secret=${{ secrets.AZURE_CLIENT_SECRET }}
         env:
-            ARM_CLIENT_ID_UA: ${{ secrets.AZURE_CLIENT_ID }}
-            ARM_CLIENT_SECRET_UA: ${{ secrets.AZURE_CLIENT_SECRET }}
-            AZURE_AD_TENANT_ID_UA: ${{ secrets.AZURE_TENANT_ID }}
-            AZURE_SUBSCRIPTION_ID_UA: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+            AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+            AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            AZURE_SUBSCIRPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            
       - name: Terraform Plan
         uses: hashicorp/setup-terraform@v2
       - run: |
