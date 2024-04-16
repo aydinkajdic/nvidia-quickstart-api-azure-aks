@@ -17,7 +17,7 @@ resource "kubernetes_config_map_v1" "upgrade_gpu_driver" {
     }
   }
   data = {
-    "upgrade-gpu-driver.sh" = templatefile("${path.module}/user-data/upgrade-gpu-driver.sh.tpl", {
+    "upgrade-gpu-driver.sh" = templatefile("${path.cwd}/user-data/upgrade-gpu-driver.sh.tpl", {
       gpu_operator_version  = local.gpu_operator_version
       nvidia_driver_version = local.nvidia_driver_version == null ? "" : local.nvidia_driver_version
     })
