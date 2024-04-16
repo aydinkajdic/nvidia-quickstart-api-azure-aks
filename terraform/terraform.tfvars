@@ -1,7 +1,4 @@
 name =  "clfakstestnew"
-resource_group_name =  "RG-AK-AI-DEV-NE-001"
-storage_account_name =  "stgautomationfortaoapi"
-container_name =  "automation-for-tao-api"
 region = "swedencentral"
 virtual_network_address_space = "10.10.0.0/24"
 node_pool_name =  "aktaoapi1new" # only alphanumeric, not more than 12 chars
