@@ -1,8 +1,8 @@
 terraform {
   backend "azurerm" {
-    resource_group_name  = var.resource_group_name
-    storage_account_name = var.storage_account_name
-    container_name       = var.container_name
+    resource_group_name  = "RG-AK-AI-DEV-NE-001"
+    storage_account_name = "stgautomationfortaoapi"
+    container_name       = "automation-for-tao-api"
     key                  = "terraform.tfstate"
   }
 }
